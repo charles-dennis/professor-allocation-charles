@@ -41,5 +41,30 @@ public class CourseService {
 
 		}
 	}
+	   public Course save(Course course) {
+	        course.setId(null);
+	        return saveInternal(course);
+	    }
+	   private Course saveInternal(Course course) {
+	        course = courseRepo.save(course);
+	        return course;
+	    }
+	   
+	   public Course update(Course course) {
+	        Long id = course.getId();
+	        if (id != null && courseRepo.existsById(id)) {
+	            return saveInternal(course);
+	        } else {
+	            return null;
+	        }
+	    }
+	 public void deleteById(Long id) {
+        if (id != null && courseRepo.existsById(id)) {
+            courseRepo.deleteById(id);
+        }
+    }
 
+    public void deleteAll() {
+        courseRepo.deleteAllInBatch();
+    }
 }
